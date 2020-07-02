@@ -1,0 +1,21 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main() {
+	// your code goes here
+	string s;
+	char t;
+	cin>>s;
+	if((s.length()==0)||(s.length()==1))
+	  goto display;
+	for(int i=0, j=s.length()-1;i<j;i++, j--)
+	  {
+	  	t = s[i];
+	  	s[i] = s[j];
+	  	s[j] = t;
+	  }
+	display:
+	cout<<"Reversed string "<<s;
+	return 0;
+}
