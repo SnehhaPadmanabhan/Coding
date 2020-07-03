@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	string s;
+	cin>>s;
+	int i=0, j=s.length()-1, flag1, flag2;
+	char t;
+	while(i<j)
+	{
+		flag1 = isalpha(s[i]);
+		flag2 = isalpha(s[j]);
+		if(flag1&&flag2)
+		{
+		   t = s[i];
+		   s[i] = s[j];
+		   s[j] = t;
+		   i++;
+		   j--;
+		}
+		if(!flag1)
+		  i++;
+		if(!flag2)
+		  j--;
+	}
+	cout<<s;
+	return 0;
+}
