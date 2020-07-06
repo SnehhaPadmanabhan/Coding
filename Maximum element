@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	// your code goes here
+	int arr[10], n;
+	cin>>n;
+	for(int i=0;i<n;i++)
+	  cin>>arr[i];
+	sort(arr, arr+n);
+	int i = 0, check_val = n/2;
+	while((i+check_val)<n)
+	{
+		if(arr[i]==arr[i+check_val])
+		{
+			cout<<arr[i]<<" is the maximum element";
+			break;
+		}
+		i++;
+	}
+	return 0;
+}
