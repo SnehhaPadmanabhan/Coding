@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct Node
+{
+	struct Node * next;
+	int val;
+};
+struct Node * top = NULL;
+void push(int x)
+{
+	struct Node * newnode = (struct Node*)malloc(sizeof(Node));
+	if(newnode==NULL)
+	{
+		cout<<"\nStack full";
+		return;
+	}
+	newnode->val = x;
+	newnode->next = top;
+	top = newnode;
+	cout<<"\nPushed "<<top->val;
+}
+void pop()
+{
+	if(top==NULL)
+	{
+		cout<<"\nStack empty";
+		return;
+	}
+	cout<<"\nPopping "<<top->val;
+	struct Node * temp = top;
+	top = top->next;
+	delete(temp);
+}
+void peek()
+{
+	if(top==NULL)
+	{
+		cout<<"\nStack empty";
+		return;
+	}
+	cout<<"\nTopmost element "<<top->val;
+}
+void empty()
+{
+	cout<<"\nEmpty "<<(top==NULL);
+}
+int main() {
+	// your code goes here
+	push(1);
+	push(2);
+	push(3);
+	peek();
+	push(4);
+	peek();
+	pop();
+	peek();
+	pop();
+	peek();
+	pop();
+	peek();
+	pop();
+	peek();
+	return 0;
+}
