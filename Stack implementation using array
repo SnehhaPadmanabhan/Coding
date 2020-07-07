@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+int stacks[100], n, top = -1;
+void push(int val)
+{
+	if(n>99)
+	{
+		cout<<"Stack full";
+		return;
+	}
+	top++;
+	stacks[top] = val;
+}
+int pop()
+{
+	if(top==-1)
+	{
+		cout<<"Stack empty";
+		return -1;
+	}
+	return stacks[top--];
+}
+bool empty()
+{
+	return top==-1;
+}
+int peek()
+{
+	if(top==-1)
+	{
+		cout<<"Stack empty";
+		return -1;
+	}
+	return stacks[top];
+}
+int main() {
+	// your code goes here
+	cin>>n;
+	int choice, x;
+	cout<<"\n.MENU\n1.push\n2.pop\n3.check if empty\n4.see topmost element\n5.exit\n";
+	cin>>choice;
+	while(choice!=5)
+	{
+		if(choice == 1)
+		{
+			cin>>x;
+			push(x);
+			cout<<"Pushed "<<x<<endl;
+		}
+		else if(choice==2)
+		  cout<<"Popped "<<pop()<<endl;
+		else if(choice==4)
+		  cout<<peek()<<" is the topmost element\n";
+		else if(choice==3)
+		  cout<<"Empty?"<<empty()<<"\n";
+		cin>>choice;
+	}
+	return 0;
+}
