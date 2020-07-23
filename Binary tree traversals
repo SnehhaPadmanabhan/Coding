@@ -1,0 +1,141 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct Node
+{
+	int val;
+	struct Node*left;
+	struct Node*right;
+};
+struct Node*newnode(int val)
+{
+	struct Node*newnode = (struct Node*)malloc(sizeof(struct Node));
+	newnode->val = val;
+	newnode->left = NULL;
+	newnode->right = NULL;
+	return newnode;
+}
+void inorder_recursive(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	inorder_recursive(root->left);
+	cout<<root->val<<" ";
+	inorder_recursive(root->right);
+}
+void inorder_iterative(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	stack<struct Node*>tree;
+	struct Node*cur=root;
+	while((!tree.empty())||(cur!=NULL))
+	{
+		while(cur!=NULL)
+		{
+			tree.push(cur);
+			cur = cur->left;
+		}
+		cur = tree.top();
+		cout<<cur->val<<" ";
+		tree.pop();
+		cur = cur->right;
+	}
+}
+void preorder_recursive(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	cout<<root->val<<" ";
+	preorder_recursive(root->left);
+	preorder_recursive(root->right);
+}
+void preorder_iterative(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	stack<struct Node*>tree;
+	tree.push(root);
+	while(!tree.empty())
+	{
+		struct Node*temp = tree.top();
+		cout<<temp->val<<" ";
+		tree.pop();
+	if(temp->right!=NULL)
+	  tree.push(temp->right);
+	if(temp->left!=NULL)
+	  tree.push(temp->left);
+	}
+}
+void postorder_recursive(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	postorder_recursive(root->left);
+	postorder_recursive(root->right);
+	cout<<root->val<<" ";
+}
+void postorder_iterative(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	stack<struct Node*>tree1, tree2;
+	tree1.push(root);
+	while(!tree1.empty())
+	{
+		struct Node*temp=tree1.top();
+		tree1.pop();
+		tree2.push(temp);
+		if(temp->left)
+		tree1.push(temp->left);
+		if(temp->right)
+		tree1.push(temp->right);
+	}
+	while(!tree2.empty())
+	{
+		struct Node*temp=tree2.top();
+		cout<<temp->val<<" ";
+		tree2.pop();
+	}
+}
+void bfs_iterative(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	queue<struct Node*>tree;
+    tree.push(root);
+	while(!tree.empty())
+	{
+		struct Node * temp = tree.front();
+		tree.pop();
+		cout<<temp->val<<" ";
+		if(temp->left)
+		  tree.push(temp->left);
+		if(temp->right)
+		  tree.push(temp->right);
+	}
+}
+int main() {
+	// your code goes here
+	struct Node*root = newnode(1);
+	root->left = newnode(2);
+	root->right = newnode(3);
+	root->left->left = newnode(4);
+	root->left->right = newnode(5);
+	root->right->left = newnode(6);
+	root->right->right = newnode(7);
+	cout<<"Recursive inorder : ";
+	inorder_recursive(root);
+	cout<<"\nIterative inorder : ";
+	inorder_iterative(root);
+	cout<<"\nRecursive preorder : ";
+	preorder_recursive(root);
+	cout<<"\nIterative preorder : ";
+	preorder_iterative(root);
+	cout<<"\nRecursive postorder : ";
+	postorder_recursive(root);
+	cout<<"\nIterative postorder : ";
+	postorder_iterative(root);
+	cout<<"\nItertive bfs : ";
+	bfs_iterative(root);
+	return 0;
+}
