@@ -1,0 +1,182 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct Node
+{
+	int val;
+	struct Node *left, *right;
+};
+struct Node*newnode(int val)
+{
+	struct Node*temp = (struct Node*)malloc(sizeof(Node));
+	if(temp==NULL)
+	  return NULL;
+	temp->val = val;
+	temp->right = NULL;
+	temp->left = NULL;
+	return temp;
+}
+void bfs(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	queue<struct Node*>tree;
+	struct Node*cur = root;
+	tree.push(root);
+	while(!tree.empty())
+	{
+		cur = tree.front();
+		tree.pop();
+		cout<<cur->val<<" ";
+		if(cur->left!=NULL)
+		  	tree.push(cur->left); 
+		if(cur->right!=NULL)
+		  	tree.push(cur->right); 
+	}
+}
+void invert_alternate_levels(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	queue<struct Node*>tree;
+	queue<struct Node*>holder;
+	stack<int>container;
+	struct Node*cur = root;
+	struct Node *temp2;
+	int temp1;
+	bool level = false;
+	tree.push(root);
+	int n;
+	while(!tree.empty())
+	{
+		n = tree.size();
+		while(n--)
+		{
+			cur = tree.front();
+			tree.pop();
+			if(level)
+			{
+				holder.push(cur);
+				container.push(cur->val);
+			}
+			if(n==0)
+			{
+				level = !level;
+				while(!container.empty())
+				{
+					temp1 = container.top();
+					temp2 = holder.front();
+					temp2->val = temp1;
+					holder.pop();
+					container.pop();
+				}
+			}
+			if(cur->left!=NULL)
+			  tree.push(cur->left);
+			if(cur->right!=NULL)
+			  tree.push(cur->right);
+		}
+	}
+}
+void invertBinaryTree(Node* root)
+{
+	// base case: if tree is empty
+	if (root == nullptr)
+		return;
+
+	// maintain a queue and enqueue root node
+	queue<Node*> q;
+	q.push(root);
+
+	// to store current level information
+	bool level = false;
+
+	// queue to store nodes present in an odd level
+	queue<Node*> level_nodes;
+
+	// stack to store node's data in an odd level
+	stack<int> level_data;
+
+	// run till queue is not empty
+	while (!q.empty())
+	{
+		// get size of current level
+		int n = q.size();
+
+		// process all nodes present in current level
+		while (n--)
+		{
+			// remove front node from queue
+			Node* curr = q.front();
+			q.pop();
+
+			// if level is odd
+			if (level)
+			{
+				// push current node into the queue
+				level_nodes.push(curr);
+
+				// push data of current node into the stack
+				level_data.push(curr->val);
+			}
+
+			// if current node is last node of the level
+			if (n == 0)
+			{
+				// flip the level
+				level = !level;
+
+				// put elements present in the level_data into their correct
+				// position using level_nodes
+				while (!level_nodes.empty())
+				{
+					Node* front = level_nodes.front();
+					front->val = level_data.top();
+
+					level_nodes.pop();
+					level_data.pop();
+				}
+			}
+
+			// push left child of current node to the queue
+			if (curr->left)
+				q.push(curr->left);
+
+			// push right child of current node to the queue
+			if (curr->right)
+				q.push(curr->right);
+		}
+	}
+}
+
+
+int main() {
+	// your code goes here
+	struct Node * root = newnode(1);
+	root->left = newnode(2);
+	root->right = newnode(3);
+	root->left->left = newnode(4);
+	root->left->right = newnode(5);
+	root->right->left = newnode(6);
+	root->right->right  = newnode(7);
+	root->left->left->left = newnode(8);
+	root->left->left->right = newnode(9);
+	root->left->right->left = newnode(10);
+	root->left->right->right = newnode(11);
+	root->right->left->left = newnode(12);
+	root->right->left->right = newnode(13);
+	root->right->right->left = newnode(14);
+	root->right->right->right = newnode(15);
+	root->left->left->left->left = newnode(16);
+	root->left->left->left->right = newnode(17);
+	root->left->left->right->left = newnode(18);
+	root->left->left->right->right = newnode(19);
+	cout<<"The tree initially : ";
+	bfs(root);
+	cout<<"\nThe tree after inverting alternate levels : ";
+	invert_alternate_levels(root);
+	bfs(root);
+	cout<<"\n";
+	invertBinaryTree(root);
+	bfs(root);
+	return 0;
+}
