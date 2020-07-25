@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct Node
+{
+	int val;
+	struct Node*left, *right;
+};
+struct Node*newnode(int val)
+{
+	struct Node*newnode = (struct Node*)malloc(sizeof(struct Node));
+	if(newnode==NULL)
+	{
+		return NULL;
+	}
+	newnode->val = val;
+	newnode->left = NULL;
+	newnode->right = NULL;
+	return newnode;
+}
+void inorder_traversal(struct Node*root)
+{
+	if(root==NULL)
+	  return;
+	inorder_traversal(root->left);
+	cout<<root->val<<" ";
+	inorder_traversal(root->right);
+}
+struct Node * create(int start, int end, vector<int> const &postorder, int &pIndex, unordered_map<int, int>&map)
+{
+	if(start>end)
+	  return NULL;
+	struct Node*root = newnode(postorder[pIndex--]);
+	int index = map[root->val];
+	root->right = create(index+1, end, postorder, pIndex, map);
+	root->left = create(start, index-1, postorder, pIndex, map);
+	return root;
+}
+struct Node * create(vector<int> const &inorder, vector<int> const &postorder)
+{
+	int n = inorder.size();
+	unordered_map<int, int>map;
+	for(int i = 0;i<n;i++)
+	  map[inorder[i]] = i;
+	int pIndex = n-1;
+	return create(0, n-1, postorder, pIndex, map);
+}
+int main() {
+	// your code goes here
+	vector<int>inorder = {4, 2, 5, 1, 6, 3, 7};
+	vector<int>postorder = {4, 2, 5, 6, 7, 3, 1};
+	struct Node*root = create(inorder, postorder);
+	inorder_traversal(root);
+	return 0;
+}
