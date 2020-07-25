@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+void intersection(vector<int>arr1, vector<int>arr2)
+{
+	if(arr1.size()==0)
+	{
+		for(int i = 0;i<arr2.size();i++)
+		  cout<<arr2[i]<<" ";
+		return;
+	}
+	if(arr2.size()==0)
+	{
+		for(int i = 0;i<arr1.size();i++)
+		  cout<<arr1[i]<<" ";
+		return;
+	}
+	map<int, int>freq1, freq2;
+	for(int i=0;i<arr1.size();i++)
+	  freq1[arr1[i]]++;
+	for(int i=0;i<arr2.size();i++)
+	  freq2[arr2[i]]++;
+	int n;
+	
+	for(auto const&i:freq1)
+	{
+		if(freq2.find(i.first)!=freq2.end())
+		{
+			n = min(freq2[i.first], freq1[i.first]);
+			freq2[i.first]-=n;
+			freq1[i.first]-=n;
+			while(n--)
+			  cout<<i.first<<" ";
+		}
+	}
+}
+int main() {
+	// your code goes here
+	vector<int>arr1 = {1, 2, 2, 2, 2, 3, 3, 4, 5};
+	vector<int>arr2 = {1, 2, 2, 4};
+	intersection(arr1, arr2);
+	return 0;
+}
