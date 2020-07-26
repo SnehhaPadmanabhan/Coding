@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+set <string> getPermutations(const string &s)
+{
+	set <string> answer;
+	if(s.length()<=1)
+	{
+		answer.insert(s);
+		return answer;
+	}
+	char lastChar = s[s.length()-1];
+	string exceptLast = s.substr(0, s.length()-1);
+	const auto permutationExceptLast = getPermutations(exceptLast);
+	for(const string &str:permutationExceptLast)
+	{
+		for(int i = 0;i<=exceptLast.length();i++)
+		{
+			string temp = str.substr(0, i) + lastChar + str.substr(i);
+			answer.insert(temp);
+		}
+	}
+	return answer;
+}
+int main() {
+	// your code goes here
+	set <string> solution = getPermutations("cat");
+	for(auto i:solution)
+	  cout<<i<<"\n";
+	return 0;
+}
