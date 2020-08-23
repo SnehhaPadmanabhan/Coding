@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+void addEdge(vector<int>adj[], int u, int v){
+	adj[u].push_back(v);
+}
+void findFinished(vector<int>adj[], int u, vector<bool>&visited, stack<int>&vertices)
+{
+    visited[u] = true;
+    for(int i = 0;i<adj[u].size();i++)
+    {
+    	if(visited[adj[u][i]]==false)
+    	   findFinished(adj, adj[u][i], visited, vertices);
+    }
+    vertices.push(u);
+    cout<<u<<" ";
+}
+void transpose(vector<int>adj[], const int V, vector<int>transposeAdj[]){
+	//vector<int>transposeAdj[V];
+	for(int i = 0; i<V; i++)
+	{
+		for(int j = 0; j<adj[i].size(); j++)
+		   transposeAdj[adj[i][j]].push_back(i);
+	}
+}
+void dfsRecurse(vector<int>adj[], int u, vector<bool>&visited){
+	visited[u] = true;
+	cout<<u<<" ";
+	for(int i = 0;i<adj[u].size(); i++)
+	{
+		if(visited[adj[u][i]]==false)
+		  dfsRecurse(adj, adj[u][i], visited);
+	}
+}
+void stronglyConnected(vector<int>adj[], const int v)
+{
+	vector<bool>visited(v, false);
+	stack<int>vertices;
+	findFinished(adj, 0, visited, vertices);
+	cout<<"\n";
+	vector<int>t[10];
+	transpose(adj, v, t);
+	int top;
+	for(int i = 0; i<v;i++)
+	  visited[i]=false;
+	while(!vertices.empty())
+	{
+		top = vertices.top();
+		vertices.pop();
+		if(visited[top]==false){
+		dfsRecurse(t, top, visited); 
+		cout<<"\n"; }
+	}
+}
+int main() {
+	// your code goes here
+	vector<int>adj[10];
+	addEdge(adj, 1, 0); 
+    addEdge(adj, 0, 2); 
+    addEdge(adj, 2, 1); 
+    addEdge(adj, 0, 3); 
+    addEdge(adj, 3, 4);
+    stronglyConnected(adj, 5);
+	return 0;
+}
